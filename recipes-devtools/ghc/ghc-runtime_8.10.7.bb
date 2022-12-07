@@ -7,30 +7,30 @@ PACKAGES = " \
     ${PN} \
 "
 FILES_${PN} = " \
-    ${libdir}/ghc-${PV}/libHSrts_debug-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSrts_thr_debug-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSrts-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSrts_thr-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSffi-ghc${PV}.so \
     ${libdir}/ghc-${PV}/array-*/*.so \
     ${libdir}/ghc-${PV}/base-*/*.so \
-    ${libdir}/ghc-${PV}/containers-*/*.so \
-    ${libdir}/ghc-${PV}/time-*/*.so \
-    ${libdir}/ghc-${PV}/pretty-*/*.so \
-    ${libdir}/ghc-${PV}/directory-*/*.so \
-    ${libdir}/ghc-${PV}/old-locale-*/*.so \
-    ${libdir}/ghc-${PV}/syb-*/*.so \
-    ${libdir}/ghc-${PV}/process-*/*.so \
-    ${libdir}/ghc-${PV}/random-*/*.so \
-    ${libdir}/ghc-${PV}/filepath-*/*.so \
     ${libdir}/ghc-${PV}/bytestring-*/*.so \
-    ${libdir}/ghc-${PV}/integer-simple-*/*.so \
-    ${libdir}/ghc-${PV}/old-time-*/*.so \
-    ${libdir}/ghc-${PV}/utf8-string-*/*.so \
-    ${libdir}/ghc-${PV}/unix-*/*.so \
+    ${libdir}/ghc-${PV}/containers-*/*.so \
+    ${libdir}/ghc-${PV}/directory-*/*.so \
+    ${libdir}/ghc-${PV}/filepath-*/*.so \
     ${libdir}/ghc-${PV}/ghc-prim-*/*.so \
     ${libdir}/ghc-${PV}/haskell98-*/*.so \
     ${libdir}/ghc-${PV}/integer-gmp-*/*.so \
+    ${libdir}/ghc-${PV}/integer-simple-*/*.so \
+    ${libdir}/ghc-${PV}/libHSffi-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/libHSrts-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/libHSrts_debug-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/libHSrts_thr-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/libHSrts_thr_debug-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/old-locale-*/*.so \
+    ${libdir}/ghc-${PV}/old-time-*/*.so \
+    ${libdir}/ghc-${PV}/pretty-*/*.so \
+    ${libdir}/ghc-${PV}/process-*/*.so \
+    ${libdir}/ghc-${PV}/random-*/*.so \
+    ${libdir}/ghc-${PV}/syb-*/*.so \
+    ${libdir}/ghc-${PV}/time-*/*.so \
+    ${libdir}/ghc-${PV}/unix-*/*.so \
+    ${libdir}/ghc-${PV}/utf8-string-*/*.so \
 "
 INSANE_SKIP_${PN} = "installed-vs-shipped"
 
