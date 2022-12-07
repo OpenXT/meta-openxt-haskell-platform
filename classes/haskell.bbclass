@@ -46,8 +46,8 @@ CONFIGURE_FILES += " \
 
 RUNGHC = "runghc"
 
-GHC_PACKAGE_PATH_class-native = "${STAGING_LIBDIR_NATIVE}/ghc-6.12.3/package.conf.d"
-GHC_PACKAGE_PATH_class-target = "${STAGING_LIBDIR}/ghc-6.12.3/package.conf.d"
+GHC_PACKAGE_PATH_class-native = "${STAGING_LIBDIR_NATIVE}/ghc-8.10.7/package.conf.d"
+GHC_PACKAGE_PATH_class-target = "${STAGING_LIBDIR}/ghc-8.10.7/package.conf.d"
 export GHC_PACKAGE_PATH
 
 # GHC has been patched to disable generating PIE code, so we need to disable

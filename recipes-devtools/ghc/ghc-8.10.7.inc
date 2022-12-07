@@ -2,7 +2,7 @@ require ghc-common.inc
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI = " \
-    https://downloads.haskell.org/~ghc/${PV}/ghc-${PV}-src.tar.bz2 \
+    https://downloads.haskell.org/~ghc/${PV}/ghc-${PV}-src.tar.xz \
     file://build.mk \
     file://gcc-4.9-fomit-frame-pointer.patch \
     file://use-order-only-constraints-for-directories.patch \
@@ -23,8 +23,8 @@ SRC_URI = " \
     file://rts-no-hidden.patch \
     file://template-hsc-install-race.patch \
 "
-SRC_URI[md5sum] = "4c2663c2eff833d7b9f39ef770eefbd6"
-SRC_URI[sha256sum] = "6cbdbe415011f2c7d15e4d850758d8d393f70617b88cb3237d2c602bb60e5e68"
+SRC_URI[md5sum] = "d618250bf956bb6ea2628f7ec97c6ed4"
+SRC_URI[sha256sum] = "e3eef6229ce9908dfe1ea41436befb0455fefb1932559e860ad4c606b0d03c9d"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=7cb08deb79c4385547f57d6bb2864e0f"
 do_compile() {
     cp ${WORKDIR}/build.mk ${S}/mk/
