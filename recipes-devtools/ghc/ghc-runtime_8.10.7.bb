@@ -9,10 +9,13 @@ PACKAGES = " \
 FILES_${PN} = " \
     ${libdir}/ghc-${PV}/array-*/*.so \
     ${libdir}/ghc-${PV}/base-*/*.so \
+    ${libdir}/ghc-${PV}/binary-*/*.so \
     ${libdir}/ghc-${PV}/bytestring-*/*.so \
     ${libdir}/ghc-${PV}/containers-*/*.so \
+    ${libdir}/ghc-${PV}/deepseq-*/*.so \
     ${libdir}/ghc-${PV}/directory-*/*.so \
     ${libdir}/ghc-${PV}/filepath-*/*.so \
+    ${libdir}/ghc-${PV}/ghc-boot-th-*/*.so \
     ${libdir}/ghc-${PV}/ghc-prim-*/*.so \
     ${libdir}/ghc-${PV}/haskell98-*/*.so \
     ${libdir}/ghc-${PV}/integer-gmp-*/*.so \
@@ -22,13 +25,19 @@ FILES_${PN} = " \
     ${libdir}/ghc-${PV}/libHSrts_debug-ghc${PV}.so \
     ${libdir}/ghc-${PV}/libHSrts_thr-ghc${PV}.so \
     ${libdir}/ghc-${PV}/libHSrts_thr_debug-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/mtl-*/*.so \
     ${libdir}/ghc-${PV}/old-locale-*/*.so \
     ${libdir}/ghc-${PV}/old-time-*/*.so \
+    ${libdir}/ghc-${PV}/parsec-*/*.so \
     ${libdir}/ghc-${PV}/pretty-*/*.so \
     ${libdir}/ghc-${PV}/process-*/*.so \
     ${libdir}/ghc-${PV}/random-*/*.so \
+    ${libdir}/ghc-${PV}/stm-*/*.so \
     ${libdir}/ghc-${PV}/syb-*/*.so \
+    ${libdir}/ghc-${PV}/template-haskell-*/*.so \
+    ${libdir}/ghc-${PV}/text-*/*.so \
     ${libdir}/ghc-${PV}/time-*/*.so \
+    ${libdir}/ghc-${PV}/transformers-*/*.so \
     ${libdir}/ghc-${PV}/unix-*/*.so \
     ${libdir}/ghc-${PV}/utf8-string-*/*.so \
 "
