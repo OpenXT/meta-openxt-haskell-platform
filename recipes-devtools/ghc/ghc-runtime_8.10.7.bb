@@ -45,9 +45,17 @@ INSANE_SKIP_${PN} = "installed-vs-shipped"
 
 DEPENDS += " \
     ghc-native \
+    libffi \
 "
+BUILD_RANLIB_remove = "-D"
+
 do_configure() {
-    ./configure --prefix=${prefix} --enable-shared
+    ./configure --prefix=${prefix} \
+                --host=${BUILD_SYS} \
+                --build=${BUILD_SYS} \
+                --target=${TARGET_SYS} \
+                CC=`which gcc` \
+                LD=`which ld`
 }
 
 do_sysroot_ghc_pkg_db() {
