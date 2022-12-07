@@ -18,8 +18,12 @@ SRC_URI += " \
 # the installation from the host rootfs.
 #
 
+BUILD_RANLIB_remove = "-D"
+
 do_configure() {
-    ./configure --prefix=${prefix} --enable-shared
+    ./configure --prefix=${prefix} \
+                CC=`which gcc` \
+                LD=`which ld`
     echo "STANDARD_OPTS += \"-I${STAGING_INCDIR_NATIVE}\"" >> rts/ghc.mk
 }
 

@@ -9,9 +9,9 @@ SRC_URI = " \
 SRC_URI[md5sum] = "d618250bf956bb6ea2628f7ec97c6ed4"
 SRC_URI[sha256sum] = "e3eef6229ce9908dfe1ea41436befb0455fefb1932559e860ad4c606b0d03c9d"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=7cb08deb79c4385547f57d6bb2864e0f"
-do_compile() {
+
+do_compile_prepend() {
     cp ${WORKDIR}/build.mk ${S}/mk/
-    oe_runmake DESTDIR="${D}"
 }
 
 do_install() {
