@@ -115,10 +115,6 @@ do_configure() {
 
 do_compile() {
     ${RUNGHC} Setup.*hs build \
-        --ghc-options='-dynload sysdep
-                       -pgmc ghc-cc
-                       -pgml ghc-ld' \
-        --with-gcc="ghc-cc" \
         --verbose
 }
 
