@@ -8,7 +8,7 @@ BUILD_DOCBOOK_HTML = NO
 BUILD_DOCBOOK_PS   = NO
 BUILD_DOCBOOK_PDF  = NO
 
-INTEGER_LIBRARY = integer-simple
+INTEGER_LIBRARY = integer-gmp
 
 GhcLibWays = v dyn
 

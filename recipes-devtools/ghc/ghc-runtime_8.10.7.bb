@@ -54,6 +54,7 @@ do_configure() {
                 --host=${BUILD_SYS} \
                 --build=${BUILD_SYS} \
                 --target=${TARGET_SYS} \
+                --with-intree-gmp \
                 CC=`which gcc` \
                 LD=`which ld`
 }

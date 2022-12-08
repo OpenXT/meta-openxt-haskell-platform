@@ -22,6 +22,7 @@ BUILD_RANLIB_remove = "-D"
 
 do_configure() {
     ./configure --prefix=${prefix} \
+                --with-intree-gmp \
                 CC=`which gcc` \
                 LD=`which ld`
     echo "STANDARD_OPTS += \"-I${STAGING_INCDIR_NATIVE}\"" >> rts/ghc.mk
