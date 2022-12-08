@@ -49,11 +49,6 @@ RUNGHC = "runghc"
 PACKAGE_DB_PATH_class-native = "${STAGING_LIBDIR_NATIVE}/ghc-8.10.7/package.conf.d"
 PACKAGE_DB_PATH_class-target = "${STAGING_LIBDIR}/ghc-8.10.7/package.conf.d"
 
-# GHC has been patched to disable generating PIE code, so we need to disable
-# PIE to be able to link any haskell programs.
-SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
-SECURITY_LDFLAGS = ""
-
 get_ghc_version() {
     ghc_version=$(ghc-pkg --version)
     echo "${ghc_version##* }"
@@ -109,7 +104,7 @@ do_configure() {
         ${EXTRA_CABAL_CONF} \
         --disable-executable-stripping \
         --disable-library-stripping \
-        --ghc-options="-dynload sysdep ${GHC_EXTRA_OPTS} -package-db ${PACKAGE_DB_PATH}" \
+        --ghc-options="-fPIE -dynload sysdep ${GHC_EXTRA_OPTS} -package-db ${PACKAGE_DB_PATH}" \
         --with-ghc-pkg="${STAGING_BINDIR_NATIVE}/ghc-pkg" \
         --with-hsc2hs="${STAGING_BINDIR_NATIVE}/hsc2hs" \
         --hsc2hs-options="${HSC2HS_EXTRA_OPTS} -x" \

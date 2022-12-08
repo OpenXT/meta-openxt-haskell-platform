@@ -8,11 +8,6 @@ inherit hackage
 SRC_URI[md5sum] = "4027c26251cc3f0533795e902dfef6d5"
 SRC_URI[sha256sum] = "ec61ac2b33cf5032082ebaa109daea1ffa03baae090c0cc04624f19642b958f5"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-SRC_URI += "\
-    file://no-pie.patch \
-"
-
 DEPENDS += "\
     hkg-polyparse \
     hkg-random \
