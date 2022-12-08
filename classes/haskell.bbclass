@@ -80,7 +80,10 @@ do_configure() {
     ghc-pkg recache
     ghc_version=$(get_ghc_version)
 
-    ${RUNGHC} Setup.*hs clean --verbose
+    if [ -d "${S}/dist" ]; then
+        ${RUNGHC} Setup.*hs clean --verbose
+    fi
+
     ${RUNGHC} Setup.*hs configure \
         ${EXTRA_CABAL_CONF} \
         --disable-executable-stripping \
