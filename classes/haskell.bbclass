@@ -55,13 +55,17 @@ export GHC_PACKAGE_PATH
 SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
 SECURITY_LDFLAGS = ""
 
+get_ghc_version() {
+    ghc_version=$(ghc-pkg --version)
+    echo "${ghc_version##* }"
+}
+
 # Bitbake will amend the WORKDIR paths it finds (staging stage 2). This works to
 # our advantage for native class, target class need to be configured with their
 # target dependencies, so substitute the target paths for WORKDIR starging so
 # ghc-pkg finds them.
 do_configure_prepend_class-target() {
-    ghc_version=$(ghc-pkg --version)
-    ghc_version=${ghc_version##* }
+    ghc_version=$(get_ghc_version)
     for pkgconf in ${STAGING_LIBDIR}/ghc-${ghc_version}/package.conf.d/*.conf; do
         if [ -f "${pkgconf}" ]; then
             sed -i \
@@ -118,8 +122,7 @@ do_fixup_rpath() {
     :
 }
 do_fixup_rpath_class-target() {
-    ghc_version=$(ghc-pkg --version)
-    ghc_version=${ghc_version##* }
+    ghc_version=$(get_ghc_version)
 
     for f in \
         ${D}${libdir}/ghc-${ghc_version}/${HPN}-${HPV}/libHS${HPN}-${HPV}*.so \
@@ -151,8 +154,7 @@ do_install() {
 
     # Prepare GHC package database files.
     if [ -f "${B}/${HPN}-${HPV}.conf" ]; then
-        ghc_version=$(ghc-pkg --version)
-        ghc_version=${ghc_version##* }
+        ghc_version=$(get_ghc_version)
         install -m 755 -d ${D}${libdir}/ghc-${ghc_version}/package.conf.d
         install -m 644 ${B}/${HPN}-${HPV}.conf ${D}${libdir}/ghc-${ghc_version}/package.conf.d
     fi
