@@ -46,9 +46,8 @@ CONFIGURE_FILES += " \
 
 RUNGHC = "runghc"
 
-GHC_PACKAGE_PATH_class-native = "${STAGING_LIBDIR_NATIVE}/ghc-8.10.7/package.conf.d"
-GHC_PACKAGE_PATH_class-target = "${STAGING_LIBDIR}/ghc-8.10.7/package.conf.d"
-export GHC_PACKAGE_PATH
+PACKAGE_DB_PATH_class-native = "${STAGING_LIBDIR_NATIVE}/ghc-8.10.7/package.conf.d"
+PACKAGE_DB_PATH_class-target = "${STAGING_LIBDIR}/ghc-8.10.7/package.conf.d"
 
 # GHC has been patched to disable generating PIE code, so we need to disable
 # PIE to be able to link any haskell programs.
@@ -78,6 +77,8 @@ do_configure_prepend_class-target() {
 
 do_configure() {
     ghc-pkg recache
+    ghc-pkg --package-db "${PACKAGE_DB_PATH}" recache
+
     ghc_version=$(get_ghc_version)
 
     if [ -d "${S}/dist" ]; then
@@ -100,10 +101,11 @@ do_configure() {
         ${EXTRA_CABAL_CONF} \
         --disable-executable-stripping \
         --disable-library-stripping \
-        --ghc-options="-dynload sysdep ${GHC_EXTRA_OPTS}" \
+        --ghc-options="-dynload sysdep ${GHC_EXTRA_OPTS} -package-db ${PACKAGE_DB_PATH}" \
         --with-ghc-pkg="${STAGING_BINDIR_NATIVE}/ghc-pkg" \
         --with-hsc2hs="${STAGING_BINDIR_NATIVE}/hsc2hs" \
         --hsc2hs-options="${HSC2HS_EXTRA_OPTS} -x" \
+        --ghc-pkg-options="--package-db=${PACKAGE_DB_PATH}" \
         --libsubdir="ghc-${ghc_version}/${HPN}-${HPV}" \
         --dynlibdir="${libdir}/ghc-${ghc_version}/${HPN}-${HPV}" \
         --enable-shared \
