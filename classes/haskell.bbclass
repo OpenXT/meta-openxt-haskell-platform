@@ -175,7 +175,7 @@ do_fixup_rpath[doc] = "Amend rpath set by GHC to comply with target's environmen
 do_fixup_rpath[dirs] = "${B}"
 
 do_install() {
-    ${RUNGHC} Setup.*hs copy --copy-prefix="${D}/${prefix}" --verbose
+    ${RUNGHC} Setup.*hs copy --destdir="${D}" --verbose
 
     # Prepare GHC package database files.
     if [ -f "${B}/${HPN}-${HPV}.conf" ]; then
