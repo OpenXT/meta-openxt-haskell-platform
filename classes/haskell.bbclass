@@ -75,6 +75,14 @@ do_configure_prepend_class-target() {
     done
 }
 
+# generate the Setup.hs file if it doesn't exist
+do_configure_prepend() {
+    if [ ! -e "${S}/Setup.hs" ] && [ ! -e "${S}/Setup.lhs" ] ; then
+        echo "import Distribution.Simple" > "${S}/Setup.hs"
+        echo "main = defaultMain" >> "${S}/Setup.hs"
+    fi
+}
+
 do_configure() {
     ghc-pkg recache
     ghc-pkg --package-db "${PACKAGE_DB_PATH}" recache
