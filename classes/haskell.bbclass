@@ -84,17 +84,26 @@ do_configure() {
         ${RUNGHC} Setup.*hs clean --verbose
     fi
 
+    # some packages supply their own configure script. if this script
+    # exists, we don't need to use the ghc-* wrappers as the OE env
+    # vars will be automatically used. we still need to differentiate
+    # the two cases as the ghc-* arguments will actually cause these
+    # packages to fail, so only utilize them if we need to.
+    if [[ ! -e "${S}/configure" ]]; then
+        RUNGHC_OE_OPTS="--with-gcc=ghc-cc --with-ld=ghc-ld"
+        GHC_EXTRA_OPTS="-pgmc ghc-cc -pgml ghc-ld"
+        HSC2HS_EXTRA_OPTS="-c ghc-cc -l ghc-ld"
+    fi
+
     ${RUNGHC} Setup.*hs configure \
+        ${RUNGHC_OE_OPTS} \
         ${EXTRA_CABAL_CONF} \
         --disable-executable-stripping \
         --disable-library-stripping \
-        --ghc-options='-dynload sysdep
-                       -pgmc ghc-cc
-                       -pgml ghc-ld' \
-        --with-gcc="ghc-cc" \
+        --ghc-options="-dynload sysdep ${GHC_EXTRA_OPTS}" \
         --with-ghc-pkg="${STAGING_BINDIR_NATIVE}/ghc-pkg" \
         --with-hsc2hs="${STAGING_BINDIR_NATIVE}/hsc2hs" \
-        --hsc2hs-options="-c ghc-cc -l ghc-ld -x" \
+        --hsc2hs-options="${HSC2HS_EXTRA_OPTS} -x" \
         --libsubdir="ghc-${ghc_version}/${HPN}-${HPV}" \
         --dynlibdir="${libdir}/ghc-${ghc_version}/${HPN}-${HPV}" \
         --enable-shared \
