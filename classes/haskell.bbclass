@@ -78,15 +78,22 @@ do_configure_prepend_class-target() {
 
 do_configure() {
     ghc-pkg recache
+    ghc_version=$(get_ghc_version)
 
     ${RUNGHC} Setup.*hs clean --verbose
     ${RUNGHC} Setup.*hs configure \
         ${EXTRA_CABAL_CONF} \
         --disable-executable-stripping \
+        --disable-library-stripping \
         --ghc-options='-dynload sysdep
                        -pgmc ghc-cc
                        -pgml ghc-ld' \
         --with-gcc="ghc-cc" \
+        --with-ghc-pkg="${STAGING_BINDIR_NATIVE}/ghc-pkg" \
+        --with-hsc2hs="${STAGING_BINDIR_NATIVE}/hsc2hs" \
+        --hsc2hs-options="-c ghc-cc -l ghc-ld -x" \
+        --libsubdir="ghc-${ghc_version}/${HPN}-${HPV}" \
+        --dynlibdir="${libdir}/ghc-${ghc_version}/${HPN}-${HPV}" \
         --enable-shared \
         --prefix="${prefix}" \
         --verbose
