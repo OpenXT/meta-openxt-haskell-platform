@@ -1,0 +1,10 @@
+DESCRIPTION = ""
+LICENSE = "BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=12a68543d3d2ff2712f2fbe8a3c8df6d"
+
+inherit hackage
+
+SRC_URI[md5sum] = "3e406f82d1d32a61b498ac2fa9451606"
+SRC_URI[sha256sum] = "00d5e24f247e328bd9898d5af5915c1e86b134b4d40baa680258635f95031526"
+
+PR = "r1"

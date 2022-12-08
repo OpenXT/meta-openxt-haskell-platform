@@ -1,0 +1,10 @@
+DESCRIPTION = ""
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+
+inherit hackage
+
+SRC_URI[md5sum] = "b0647d23dc526675c6fe9297530cf1ee"
+SRC_URI[sha256sum] = "dad5e4ce602b7d1f4be37c0cfd99a261a4573746bfd80d917dc955b72da84c80"
+
+PR = "r1"
