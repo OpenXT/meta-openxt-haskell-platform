@@ -21,4 +21,6 @@ DEPENDS_append = "\
     hkg-xml-types \
 "
 
+DISABLE_GHC_WRAPPERS = "1"
+
 PR = "r1"

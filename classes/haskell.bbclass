@@ -98,7 +98,7 @@ do_configure() {
     # vars will be automatically used. we still need to differentiate
     # the two cases as the ghc-* arguments will actually cause these
     # packages to fail, so only utilize them if we need to.
-    if [[ ! -e "${S}/configure" ]]; then
+    if [ "${DISABLE_GHC_WRAPPERS}" != "1" ] && [ ! -e "${S}/configure" ]; then
         RUNGHC_OE_OPTS="--with-gcc=ghc-cc --with-ld=ghc-ld"
         GHC_EXTRA_OPTS="-pgmc ghc-cc -pgml ghc-ld"
         HSC2HS_EXTRA_OPTS="-c ghc-cc -l ghc-ld"
