@@ -1,0 +1,11 @@
+--- a/lib/DBus/Introspection/Parse.hs
++++ b/lib/DBus/Introspection/Parse.hs
+@@ -45,7 +45,7 @@ parseObject
+ parseObject getPath = X.tag' "node" getPath parseContent
+   where
+     parseContent objPath = do
+-        elems <- X.many $ X.choose
++        elems <- X.many' $ X.choose
+             [ fmap SubNode <$> parseObject (getChildName objPath)
+             , fmap InterfaceDefinition <$> parseInterface
+             ]
