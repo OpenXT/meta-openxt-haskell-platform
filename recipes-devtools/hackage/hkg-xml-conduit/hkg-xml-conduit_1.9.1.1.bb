@@ -10,6 +10,7 @@ SRC_URI[sha256sum] = "bdb117606c0b56ca735564465b14b50f77f84c9e52e31d966ac8d4556d
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI += "\
     file://bump-supported-resourcet-version.patch \
+    file://use-simple-setup-file.patch \
 "
 
 DEPENDS_append = "\
