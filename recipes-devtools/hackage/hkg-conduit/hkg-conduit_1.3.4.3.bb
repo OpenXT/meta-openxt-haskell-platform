@@ -7,6 +7,11 @@ inherit hackage
 SRC_URI[md5sum] = "5a7c909aedd049a67c6eab099ff58e0e"
 SRC_URI[sha256sum] = "aca2a086a6ee065a5d1f1efc0632bccf52a8f961e4134a4fb60447765987907d"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+SRC_URI += "\
+    file://bump-supported-resourcet-version.patch \
+"
+
 DEPENDS_append = "\
     hkg-exceptions \
     hkg-mono-traversable \

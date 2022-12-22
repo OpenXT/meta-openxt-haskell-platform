@@ -7,6 +7,11 @@ inherit hackage
 SRC_URI[md5sum] = "1868eaf39e616176d898bcd5510e1f09"
 SRC_URI[sha256sum] = "1ccb158b0f7851715d36b757c523b026ca1541e2030d02239802ba39b4112bc1"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+SRC_URI += "\
+    file://bump-supported-base-version.patch \
+"
+
 DEPENDS_append = "\
     hkg-old-locale \
 "

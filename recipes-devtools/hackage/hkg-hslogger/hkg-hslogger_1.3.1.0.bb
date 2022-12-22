@@ -7,6 +7,11 @@ inherit hackage
 SRC_URI[md5sum] = "4988eed9369f71dda1fba137f5476d9d"
 SRC_URI[sha256sum] = "7f2364f6c0b9c5b85a257267a335816126ef2471c817a42797a5d3c57acaca5b"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+SRC_URI += "\
+    file://bump-supported-base-version.patch \
+"
+
 DEPENDS += "\
     hkg-network \
     hkg-network-bsd \
