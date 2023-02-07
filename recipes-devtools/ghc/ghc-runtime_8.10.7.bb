@@ -21,10 +21,6 @@ FILES_${PN} = " \
     ${libdir}/ghc-${PV}/integer-gmp-*/*.so \
     ${libdir}/ghc-${PV}/integer-simple-*/*.so \
     ${libdir}/ghc-${PV}/libHSffi-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSrts-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSrts_debug-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSrts_thr-ghc${PV}.so \
-    ${libdir}/ghc-${PV}/libHSrts_thr_debug-ghc${PV}.so \
     ${libdir}/ghc-${PV}/mtl-*/*.so \
     ${libdir}/ghc-${PV}/old-locale-*/*.so \
     ${libdir}/ghc-${PV}/old-time-*/*.so \
@@ -32,6 +28,11 @@ FILES_${PN} = " \
     ${libdir}/ghc-${PV}/pretty-*/*.so \
     ${libdir}/ghc-${PV}/process-*/*.so \
     ${libdir}/ghc-${PV}/random-*/*.so \
+    ${libdir}/ghc-${PV}/rts/libffi.so \
+    ${libdir}/ghc-${PV}/rts/libHSrts-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/rts/libHSrts_debug-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/rts/libHSrts_thr-ghc${PV}.so \
+    ${libdir}/ghc-${PV}/rts/libHSrts_thr_debug-ghc${PV}.so \
     ${libdir}/ghc-${PV}/stm-*/*.so \
     ${libdir}/ghc-${PV}/syb-*/*.so \
     ${libdir}/ghc-${PV}/template-haskell-*/*.so \
