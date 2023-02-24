@@ -7,6 +7,7 @@ require ghc-${PV}.inc
 SRC_URI += " \
     file://ghc-cc \
     file://ghc-ld \
+    file://ghc-pkg-wrapper \
 "
 
 # This requires a ghc6 capable compiler to be already installed on the host in
@@ -31,4 +32,5 @@ do_configure() {
 do_install_append() {
     install -m 755 "${WORKDIR}/ghc-cc" "${D}${bindir}/ghc-cc"
     install -m 755 "${WORKDIR}/ghc-ld" "${D}${bindir}/ghc-ld"
+    install -m 755 "${WORKDIR}/ghc-pkg-wrapper" "${D}${bindir}/ghc-pkg-wrapper"
 }

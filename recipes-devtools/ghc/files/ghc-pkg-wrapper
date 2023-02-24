@@ -1,0 +1,38 @@
+#!/bin/bash
+
+args=$@
+recache=0
+
+ghc_pkg() {
+    ${GHC_PKG_PATH}/ghc-pkg "$@"
+}
+
+for arg in $args; do
+    if [[ "$arg" == "recache" ]]; then
+        recache=1
+        break
+    fi
+done
+
+# not recaching, just redirect
+if [[ "$recache" != 1 ]]; then
+    ghc_pkg $args
+    exit $?
+fi
+
+# doing a recache, perform for all dbs
+declare -a dbs
+optargs=""
+
+for arg in $args; do
+    if [[ "$arg" == *package-db=* ]]; then
+        db="$(echo $arg | cut -d'=' -f2)"
+        dbs+=("$db")
+    else
+        optargs="$optargs $arg"
+    fi
+done
+
+for db in "${dbs[@]}"; do
+    ghc_pkg --package-db=$db $optargs
+done

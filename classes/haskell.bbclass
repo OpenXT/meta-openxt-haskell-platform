@@ -78,6 +78,9 @@ do_configure_prepend() {
     fi
 }
 
+GHC_PKG_PATH = "${STAGING_BINDIR_NATIVE}"
+export GHC_PKG_PATH
+
 do_configure() {
     ghc-pkg recache
     ghc-pkg --package-db "${PACKAGE_DB_PATH}" recache
@@ -105,7 +108,7 @@ do_configure() {
         --disable-executable-stripping \
         --disable-library-stripping \
         --ghc-options="-fPIE -dynload sysdep ${GHC_EXTRA_OPTS} -package-db ${PACKAGE_DB_PATH}" \
-        --with-ghc-pkg="${STAGING_BINDIR_NATIVE}/ghc-pkg" \
+        --with-ghc-pkg="ghc-pkg-wrapper" \
         --with-hsc2hs="${STAGING_BINDIR_NATIVE}/hsc2hs" \
         --hsc2hs-options="${HSC2HS_EXTRA_OPTS} -x" \
         --ghc-pkg-options="--package-db=${PACKAGE_DB_PATH}" \
