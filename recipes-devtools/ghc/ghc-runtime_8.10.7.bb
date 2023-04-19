@@ -28,7 +28,6 @@ FILES_${PN} = " \
     ${libdir}/ghc-${PV}/pretty-*/*.so \
     ${libdir}/ghc-${PV}/process-*/*.so \
     ${libdir}/ghc-${PV}/random-*/*.so \
-    ${libdir}/ghc-${PV}/rts/libffi.so \
     ${libdir}/ghc-${PV}/rts/libHSrts-ghc${PV}.so \
     ${libdir}/ghc-${PV}/rts/libHSrts_debug-ghc${PV}.so \
     ${libdir}/ghc-${PV}/rts/libHSrts_thr-ghc${PV}.so \
