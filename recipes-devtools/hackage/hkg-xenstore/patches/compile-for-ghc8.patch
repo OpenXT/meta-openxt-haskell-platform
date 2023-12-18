@@ -1,0 +1,11 @@
+--- a/System/Xen/Store.hs
++++ b/System/Xen/Store.hs
+@@ -156,7 +156,7 @@ data XsHandle = XsHandle
+	}
+
+ initiateXS :: IO XsHandle
+-initiateXS = bracketOnError (socket AF_UNIX Stream 0) sClose $ \sock -> do
++initiateXS = bracketOnError (socket AF_UNIX Stream 0) close $ \sock -> do
+	connect sock (SockAddrUnix "/var/run/xenstored/socket")
+	handle <- socketToHandle sock ReadWriteMode
+	mvar   <- newMVar 0

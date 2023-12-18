@@ -1,0 +1,11 @@
+--- a/polyparse.cabal
++++ b/polyparse.cabal
+@@ -47,7 +47,7 @@ source-repository this
+
+ library
+   hs-source-dirs:       src
+-  build-depends:        base >= 4.3.1.0 && < 4.14
++  build-depends:        base >= 4.3.1.0 && < 4.18
+
+   if !impl(ghc >= 8.0)
+      build-depends: fail == 4.9.*

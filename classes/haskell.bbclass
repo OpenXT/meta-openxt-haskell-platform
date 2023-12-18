@@ -19,7 +19,7 @@ PACKAGES = " \
     ${PN}-dev \
 "
 FILES_${PN}_append = " \
-    ${libdir}/${HPN}-${HPV}/ghc-*/libH*.so \
+    ${libdir}/ghc-*/${HPN}-${HPV}/libH*.so \
     ${libdir}/ghc-*/package.conf.d/*.conf \
     ${bindir}/* \
 "
@@ -27,15 +27,15 @@ FILES_${PN}-doc_append = " \
     ${datadir}/* \
 "
 FILES_${PN}-staticdev_append = " \
-    ${libdir}/${HPN}-${HPV}/ghc-*/libHS*.a \
+    ${libdir}/ghc-*/${HPN}-${HPV}/libHS*.a \
 "
 FILES_${PN}-dbg_append = " \
-    ${libdir}/${HPN}-${HPV}/ghc-*/*.o \
-    ${libdir}/${HPN}-${HPV}/ghc-*/.debug \
+    ${libdir}/ghc-*/${HPN}-${HPV}/*.o \
+    ${libdir}/ghc-*/${HPN}-${HPV}/.debug \
     ${prefix}/src/debug \
 "
 FILES_${PN}-dev_append = " \
-    ${libdir}/${HPN}-${HPV}/ghc-*/* \
+    ${libdir}/ghc-*/${HPN}-${HPV}/* \
 "
 
 CONFIGURE_FILES += " \
@@ -46,22 +46,20 @@ CONFIGURE_FILES += " \
 
 RUNGHC = "runghc"
 
-GHC_PACKAGE_PATH_class-native = "${STAGING_LIBDIR_NATIVE}/ghc-6.12.3/package.conf.d"
-GHC_PACKAGE_PATH_class-target = "${STAGING_LIBDIR}/ghc-6.12.3/package.conf.d"
-export GHC_PACKAGE_PATH
+PACKAGE_DB_PATH_class-native = "${STAGING_LIBDIR_NATIVE}/ghc-8.10.7/package.conf.d"
+PACKAGE_DB_PATH_class-target = "${STAGING_LIBDIR}/ghc-8.10.7/package.conf.d"
 
-# GHC has been patched to disable generating PIE code, so we need to disable
-# PIE to be able to link any haskell programs.
-SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
-SECURITY_LDFLAGS = ""
+get_ghc_version() {
+    ghc_version=$(ghc-pkg --version)
+    echo "${ghc_version##* }"
+}
 
 # Bitbake will amend the WORKDIR paths it finds (staging stage 2). This works to
 # our advantage for native class, target class need to be configured with their
 # target dependencies, so substitute the target paths for WORKDIR starging so
 # ghc-pkg finds them.
 do_configure_prepend_class-target() {
-    ghc_version=$(ghc-pkg --version)
-    ghc_version=${ghc_version##* }
+    ghc_version=$(get_ghc_version)
     for pkgconf in ${STAGING_LIBDIR}/ghc-${ghc_version}/package.conf.d/*.conf; do
         if [ -f "${pkgconf}" ]; then
             sed -i \
@@ -72,17 +70,50 @@ do_configure_prepend_class-target() {
     done
 }
 
+# generate the Setup.hs file if it doesn't exist
+do_configure_prepend() {
+    if [ ! -e "${S}/Setup.hs" ] && [ ! -e "${S}/Setup.lhs" ] ; then
+        echo "import Distribution.Simple" > "${S}/Setup.hs"
+        echo "main = defaultMain" >> "${S}/Setup.hs"
+    fi
+}
+
+GHC_PKG_PATH = "${STAGING_BINDIR_NATIVE}"
+export GHC_PKG_PATH
+
 do_configure() {
     ghc-pkg recache
+    ghc-pkg --package-db "${PACKAGE_DB_PATH}" recache
 
-    ${RUNGHC} Setup.*hs clean --verbose
+    ghc_version=$(get_ghc_version)
+
+    if [ -d "${S}/dist" ]; then
+        ${RUNGHC} Setup.*hs clean --verbose
+    fi
+
+    # some packages supply their own configure script. if this script
+    # exists, we don't need to use the ghc-* wrappers as the OE env
+    # vars will be automatically used. we still need to differentiate
+    # the two cases as the ghc-* arguments will actually cause these
+    # packages to fail, so only utilize them if we need to.
+    if [ "${DISABLE_GHC_WRAPPERS}" != "1" ] && [ ! -e "${S}/configure" ]; then
+        RUNGHC_OE_OPTS="--with-gcc=ghc-cc --with-ld=ghc-ld"
+        GHC_EXTRA_OPTS="-pgmc ghc-cc -pgml ghc-ld"
+        HSC2HS_EXTRA_OPTS="-c ghc-cc -l ghc-ld"
+    fi
+
     ${RUNGHC} Setup.*hs configure \
+        ${RUNGHC_OE_OPTS} \
         ${EXTRA_CABAL_CONF} \
         --disable-executable-stripping \
-        --ghc-options='-dynload sysdep
-                       -pgmc ghc-cc
-                       -pgml ghc-ld' \
-        --with-gcc="ghc-cc" \
+        --disable-library-stripping \
+        --ghc-options="-fPIE -dynload sysdep ${GHC_EXTRA_OPTS} -package-db ${PACKAGE_DB_PATH}" \
+        --with-ghc-pkg="ghc-pkg-wrapper" \
+        --with-hsc2hs="${STAGING_BINDIR_NATIVE}/hsc2hs" \
+        --hsc2hs-options="${HSC2HS_EXTRA_OPTS} -x" \
+        --ghc-pkg-options="--package-db=${PACKAGE_DB_PATH}" \
+        --libsubdir="ghc-${ghc_version}/${HPN}-${HPV}" \
+        --dynlibdir="${libdir}/ghc-${ghc_version}/${HPN}-${HPV}" \
         --enable-shared \
         --prefix="${prefix}" \
         --verbose
@@ -90,10 +121,6 @@ do_configure() {
 
 do_compile() {
     ${RUNGHC} Setup.*hs build \
-        --ghc-options='-dynload sysdep
-                       -pgmc ghc-cc
-                       -pgml ghc-ld' \
-        --with-gcc="ghc-cc" \
         --verbose
 }
 
@@ -118,11 +145,10 @@ do_fixup_rpath() {
     :
 }
 do_fixup_rpath_class-target() {
-    ghc_version=$(ghc-pkg --version)
-    ghc_version=${ghc_version##* }
+    ghc_version=$(get_ghc_version)
 
     for f in \
-        ${D}${libdir}/${HPN}-${HPV}/ghc-${ghc_version}/libHS${HPN}-${HPV}*.so \
+        ${D}${libdir}/ghc-${ghc_version}/${HPN}-${HPV}/libHS${HPN}-${HPV}*.so \
         ${D}${bindir}/* \
         ${D}${sbindir}/*
     do
@@ -147,12 +173,11 @@ do_fixup_rpath[doc] = "Amend rpath set by GHC to comply with target's environmen
 do_fixup_rpath[dirs] = "${B}"
 
 do_install() {
-    ${RUNGHC} Setup.*hs copy --copy-prefix="${D}/${prefix}" --verbose
+    ${RUNGHC} Setup.*hs copy --destdir="${D}" --verbose
 
     # Prepare GHC package database files.
     if [ -f "${B}/${HPN}-${HPV}.conf" ]; then
-        ghc_version=$(ghc-pkg --version)
-        ghc_version=${ghc_version##* }
+        ghc_version=$(get_ghc_version)
         install -m 755 -d ${D}${libdir}/ghc-${ghc_version}/package.conf.d
         install -m 644 ${B}/${HPN}-${HPV}.conf ${D}${libdir}/ghc-${ghc_version}/package.conf.d
     fi
